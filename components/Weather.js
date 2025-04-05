@@ -193,6 +193,7 @@ const styles = StyleSheet.create({
     color: '#fff'
   },
   forecastContainer: {
+    paddingTop: 20,
     paddingBottom: 20,
     paddingLeft: 15,
   },
