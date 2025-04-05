@@ -112,7 +112,6 @@ export default class App extends React.Component {
   
     return (
       <View style={styles.container}>
-        {/* 🔍 City Search Input */}
         <View style={styles.inputContainer}>
           <TextInput
             placeholder="Enter city"
@@ -124,7 +123,6 @@ export default class App extends React.Component {
           />
         </View>
   
-        {/* 🌦️ Weather Display or Loading */}
         {isLoading ? (
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
