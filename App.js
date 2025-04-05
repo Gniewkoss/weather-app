@@ -16,6 +16,7 @@ export default class App extends React.Component {
     await this.getLocation();
   }
   
+  
   getLocation = async () => {
     try {
       let { status } = await Location.requestForegroundPermissionsAsync();
