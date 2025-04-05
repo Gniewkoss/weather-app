@@ -9,14 +9,16 @@ export default class App extends React.Component {
     isLoading: true,
     temperature: 0,
     weatherCondition: null,
+    city: '', 
     error: null
   };
+  
 
   async componentDidMount() {
     await this.getLocation();
   }
   
-  
+
   getLocation = async () => {
     try {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -40,11 +42,12 @@ export default class App extends React.Component {
       const response = await fetch(API);
       const result = await response.json();
 
-      this.setState({
-        temperature: Math.round(result.main.temp),
-        weatherCondition: result.weather[0].main,
-        isLoading: false
-      });
+    this.setState({
+    temperature: Math.round(result.main.temp),
+    weatherCondition: result.weather[0].main,
+    city: result.name,
+    isLoading: false
+});
     } catch (error) {
       this.setState({ error: 'Could not fetch weather data', isLoading: false });
     }
@@ -57,7 +60,7 @@ export default class App extends React.Component {
         {isLoading ? (
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
-          <Weather temperature={temperature} condition={weatherCondition} />
+          <Weather temperature={temperature} condition={weatherCondition} city={this.state.city} />
         )}
       </View>
     );

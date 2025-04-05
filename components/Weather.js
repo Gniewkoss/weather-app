@@ -3,7 +3,7 @@ import { View, StyleSheet, Text } from "react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 
-const Weather = ({ temperature, condition }) => {
+const Weather = ({ temperature, condition ,city }) => {
     const weatherOptions = {
         Thunderstorm: {
           iconName: "weather-lightning",
@@ -77,6 +77,7 @@ const Weather = ({ temperature, condition }) => {
       <View style={styles.headerContainer}>
         <MaterialCommunityIcons size={48} name={weather.iconName} color={'#fff'} />
         <Text style={styles.tempText}>{temperature}°C</Text>
+        <Text style={styles.cityText}>{city}</Text>
       </View>
       <View style={styles.bodyContainer}>
         <Text style={styles.title}>{weather.title}</Text>
@@ -89,6 +90,11 @@ const styles = StyleSheet.create({
   weatherContainer: {
     flex: 1,
     width: '100%',
+  },
+  cityText: {
+    fontSize: 24,
+    color: '#fff',
+    marginTop: 10
   },
   headerContainer: {
     flex: 1,
