@@ -10,6 +10,7 @@ export default class App extends React.Component {
     temperature: 0,
     weatherCondition: null,
     city: '', 
+    forecast: [],
     error: null
   };
   
@@ -18,6 +19,20 @@ export default class App extends React.Component {
     await this.getLocation();
   }
   
+  getForecast = async (lat, lon) => {
+    const FORECAST_API = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`;
+  
+    try {
+      const response = await fetch(FORECAST_API);
+      const result = await response.json();
+  
+      const dailyData = result.list.filter(reading => reading.dt_txt.includes("12:00:00"));
+  
+      this.setState({ forecast: dailyData });
+    } catch (error) {
+      this.setState({ error: 'Could not fetch forecast data' });
+    }
+  };
 
   getLocation = async () => {
     try {
@@ -30,6 +45,7 @@ export default class App extends React.Component {
       let location = await Location.getCurrentPositionAsync({});
       const { latitude, longitude } = location.coords;
       this.getWeather(latitude, longitude);
+      this.getForecast(latitude, longitude);
     } catch (error) {
       this.setState({ error: 'Error getting location', isLoading: false });
     }
@@ -60,7 +76,7 @@ export default class App extends React.Component {
         {isLoading ? (
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
-          <Weather temperature={temperature} condition={weatherCondition} city={this.state.city} />
+          <Weather temperature={temperature} condition={weatherCondition} city={this.state.city} forecast={this.state.forecast} />
         )}
       </View>
     );

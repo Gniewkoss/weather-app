@@ -2,8 +2,11 @@ import React from 'react';
 import { View, StyleSheet, Text } from "react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import { FlatList } from 'react-native';
+import { Image } from 'react-native';
 
-const Weather = ({ temperature, condition ,city }) => {
+
+const Weather = ({ temperature, condition ,city, forecast }) => {
     const weatherOptions = {
         Thunderstorm: {
           iconName: "weather-lightning",
@@ -70,6 +73,7 @@ const Weather = ({ temperature, condition ,city }) => {
   const weather = weatherOptions[condition] || weatherOptions["Clear"];
 
   return (
+    
     <LinearGradient
       colors={weather.gradient}
       style={styles.weatherContainer}
@@ -80,6 +84,78 @@ const Weather = ({ temperature, condition ,city }) => {
         <Text style={styles.cityText}>{city}</Text>
       </View>
       <View style={styles.bodyContainer}>
+        <View style={styles.forecastContainer}>
+  <Text style={styles.forecastTitle}>5-Day Forecast</Text>
+  <FlatList
+    horizontal
+    showsHorizontalScrollIndicator={false}
+    data={forecast}
+    keyExtractor={item => item.dt.toString()}
+    renderItem={({ item }) => {
+      const date = new Date(item.dt * 1000);
+      const day = date.toLocaleDateString('en-US', { weekday: 'short' });
+      const temp = Math.round(item.main.temp);
+      const icon = item.weather[0].icon;
+      const iconUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`;
+
+      return (
+        <View style={styles.forecastItem}>
+          <Text style={styles.dayText}>{day}</Text>
+          <Image source={{ uri: iconUrl }} style={styles.icon} />
+          <Text style={styles.tempText}>{temp}°C</Text>
+        </View>
+      );
+    }}
+  />
+</View>
+<View style={styles.forecastContainer}>
+  <Text style={styles.forecastTitle}>5-Day Forecast</Text>
+  <FlatList
+    horizontal
+    showsHorizontalScrollIndicator={false}
+    data={forecast}
+    keyExtractor={item => item.dt.toString()}
+    renderItem={({ item }) => {
+      const date = new Date(item.dt * 1000);
+      const day = date.toLocaleDateString('en-US', { weekday: 'short' });
+      const temp = Math.round(item.main.temp);
+      const icon = item.weather[0].icon;
+      const iconUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`;
+
+      return (
+        <View style={styles.forecastItem}>
+          <Text style={styles.dayText}>{day}</Text>
+          <Image source={{ uri: iconUrl }} style={styles.icon} />
+          <Text style={styles.tempText}>{temp}°C</Text>
+        </View>
+      );
+    }}
+  />
+</View>
+<View style={styles.forecastContainer}>
+  <Text style={styles.forecastTitle}>5-Day Forecast</Text>
+  <FlatList
+    horizontal
+    showsHorizontalScrollIndicator={false}
+    data={forecast}
+    keyExtractor={item => item.dt.toString()}
+    renderItem={({ item }) => {
+      const date = new Date(item.dt * 1000);
+      const day = date.toLocaleDateString('en-US', { weekday: 'short' });
+      const temp = Math.round(item.main.temp);
+      const icon = item.weather[0].icon;
+      const iconUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`;
+
+      return (
+        <View style={styles.forecastItem}>
+          <Text style={styles.dayText}>{day}</Text>
+          <Image source={{ uri: iconUrl }} style={styles.icon} />
+          <Text style={styles.forecastTempText}>{temp}°C</Text>
+        </View>
+      );
+    }}
+  />
+</View>
         <Text style={styles.title}>{weather.title}</Text>
       </View>
     </LinearGradient>
@@ -115,7 +191,37 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 48,
     color: '#fff'
+  },
+  forecastContainer: {
+    paddingBottom: 20,
+    paddingLeft: 15,
+  },
+  forecastTitle: {
+    fontSize: 20,
+    color: '#fff',
+    fontWeight: 'bold',
+    marginBottom: 10
+  },
+  forecastItem: {
+    alignItems: 'center',
+    marginRight: 15,
+  },
+  dayText: {
+    color: '#fff',
+    fontSize: 16,
+    marginBottom: 5
+  },
+  icon: {
+    width: 50,
+    height: 50,
+    marginBottom: 5
+  },
+  forecastTempText:{
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold'
   }
+  
 });
 
 export default Weather;
